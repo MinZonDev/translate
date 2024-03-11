@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Convert MT to MX</title>
+</head>
+<body>
+<h2>Convert MT to MX</h2>
+<form id="uploadForm">
+    <input type="file" id="fileInput" accept=".txt">
+    <button type="submit">Convert</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        var formData = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+        formData.append('mtFile', file);
+
+        fetch("/convert", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("result").innerText = data;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
